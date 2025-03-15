@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addEvent } from "../redux/eventSlice";
 import { db } from "../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const compressImage = (file, quality = 0.7, maxWidth = 800, maxHeight = 800) =>
   new Promise((resolve, reject) => {
@@ -29,6 +31,7 @@ const compressImage = (file, quality = 0.7, maxWidth = 800, maxHeight = 800) =>
   });
 
 function EventForm({ onClose }) {
+  const buttonRef = useRef()
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     title: "",
@@ -81,9 +84,16 @@ function EventForm({ onClose }) {
       console.error("Error adding document:", error);
     }
   };
-
+ 
+  useGSAP(()=>{
+    gsap.from(buttonRef.current,{
+      duration:0.5,
+      scale:0,
+      ease:'power2.out'
+    })
+  })
   return (
-    <div style={{ fontFamily: "roboto" }} className="p-8 ">
+    <div ref={buttonRef} style={{ fontFamily: "roboto" }} className="p-8 ">
       <h1 className="text-4xl text-white text-center font-semibold">
         Event Details
       </h1>

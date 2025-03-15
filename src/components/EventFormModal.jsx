@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import EventForm from "./EventForm";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 function EventFormModal() {
   const [isOpen, setIsOpen] = useState(false);
